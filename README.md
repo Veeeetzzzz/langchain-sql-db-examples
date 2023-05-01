@@ -4,7 +4,7 @@ Examples of how to use Langchain's SQL DB agents + chains - use these to interac
 
 # Usage
 
-These will all be in Python - so download the script you want to use, navigate to it via CMD/PowerShell/Terminal and run the file
+These will all be in Python - so download the script you want to use, navigate to the directory it's stored in via CMD/PowerShell/Terminal and run the file
 
 e.g. `python postgresql.py`
 
