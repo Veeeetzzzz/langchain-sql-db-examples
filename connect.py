@@ -25,23 +25,20 @@ database = "test"
 
 try:
     connection_string = get_connection_string(db_type, user, password, host, port, database)
-    engine = create_engine(connection_string)
-    print(f"Connected to the {db_type} database.")
+    with create_engine(connection_string).connect() as conn:
+        print(f"Connected to the {db_type} database.")
+        
+        include_tables=['employees']
+        try:
+            rows = conn.execute("SELECT COUNT(*) FROM employees").scalar()
+            print(f"Counted {rows} rows from the employees table.")
+            
+        except Exception as e:
+            print(f"Failed to include tables: {e}")
+
 except Exception as e:
     print(f"Failed to connect to the {db_type} database: {e}")
 
-include_tables=['employees']
-
-try:
-    db = SQLDatabase(engine, include_tables=include_tables)
-    print(f"Included tables: {', '.join(include_tables)}")
-except Exception as e:
-    print(f"Failed to include tables: {e}")
-
-row_count_query = text("SELECT COUNT(*) FROM employees")
-row_count = engine.execute(row_count_query).scalar()
-print(f"Counted {row_count} rows from the employees table.")
-
-end_time = time.time()
+end_time = time.perf_counter()
 elapsed_time = end_time - start_time
 print(f"Time elapsed: {elapsed_time:.2f} seconds")
